@@ -12,3 +12,6 @@ C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyo
 C:\Users\trans\Desktop\jyoken\jyoken\jyoken\bin\Debug\jyoken.exe.config
 C:\Users\trans\Desktop\jyoken\jyoken\jyoken\obj\Debug\jyoken.exe
 C:\Users\trans\Desktop\jyoken\jyoken\jyoken\obj\Debug\jyoken.pdb
+C:\Users\trans\Desktop\chen_GraProj\jyoken\jyoken\bin\Debug\jyoken.exe.config
+C:\Users\trans\Desktop\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.exe
+C:\Users\trans\Desktop\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.pdb
