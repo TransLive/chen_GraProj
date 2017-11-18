@@ -1,0 +1,14 @@
+c:\users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\bin\Debug\jyoken.exe.config
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\bin\Debug\jyoken.exe
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\bin\Debug\jyoken.pdb
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.Properties.Resources.resources
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.csproj.GenerateResource.Cache
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.exe
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.pdb
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.MainForm.resources
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.csprojResolveAssemblyReference.cache
+C:\Users\trans\Documents\Visual Studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.Resource.resources
+C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Debug\jyoken.settingForm.resources
+C:\Users\trans\Desktop\jyoken\jyoken\jyoken\bin\Debug\jyoken.exe.config
+C:\Users\trans\Desktop\jyoken\jyoken\jyoken\obj\Debug\jyoken.exe
+C:\Users\trans\Desktop\jyoken\jyoken\jyoken\obj\Debug\jyoken.pdb
