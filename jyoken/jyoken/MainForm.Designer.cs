@@ -133,7 +133,7 @@
             this.cheLstBoxKeyWords.CheckOnClick = true;
             this.cheLstBoxKeyWords.FormattingEnabled = true;
             this.cheLstBoxKeyWords.Location = new System.Drawing.Point(30, 146);
-            this.cheLstBoxKeyWords.MinimumSize = new System.Drawing.Size(4, 184);
+            this.cheLstBoxKeyWords.MinimumSize = new System.Drawing.Size(100, 184);
             this.cheLstBoxKeyWords.MultiColumn = true;
             this.cheLstBoxKeyWords.Name = "cheLstBoxKeyWords";
             this.cheLstBoxKeyWords.Size = new System.Drawing.Size(100, 184);
@@ -246,7 +246,9 @@
         private System.Windows.Forms.CheckBox cheboxAllSelect;
         private System.Windows.Forms.Label lblIntro;
         private System.Windows.Forms.Button btnSavedFileOpen;
+#if DEBUG
         private System.Windows.Forms.Button button1;
+#endif
     }
 }
 

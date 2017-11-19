@@ -20,16 +20,16 @@ namespace jyoken
             Process p = new Process();
             p.StartInfo.FileName = mecabLocation;
             //test sentence
-            p.StartInfo.Arguments =
-@"9) ハードウェア及びソフトウェアの運用、保守、障害時の迅速な修復などについて、受 注者の支援体制が迅速かつ協力的であること。
-1) 高速確実なバックアップ機能を備え、障害時には短時間で復旧できること。
-14) 受入後に所蔵に反映する各種の値（資料種別、所在、受入区分、貸出区分、備消区分） を発注時に設定できること。
-15) 複本の発注時に、ローカルの既存の書誌を流用できること。
-5) 寄贈図書等の受入時に備消区分、資料種別、配架場所の任意の項目について、直前に 入力したレコードを参照して自動的に値を設定すること。
-8) 継続物やセット物の受入時に、同じ発注ですでに受け入れた所蔵情報を見られること。
-11) 利用者番号と予算区分の組み合わせごとに予算額を設定し、受入時に超過チェックが 可能なこと。
-";
-            //p.StartInfo.Arguments = "\"" + file + "\"";//@"""C:\Users\trans\Documents\Visual Studio 2015\Projects\jyoken\jyoken\bin\Debug\mecab\test.txt";
+//            p.StartInfo.Arguments =
+//@"9) ハードウェア及びソフトウェアの運用、保守、障害時の迅速な修復などについて、受 注者の支援体制が迅速かつ協力的であること。
+//1) 高速確実なバックアップ機能を備え、障害時には短時間で復旧できること。
+//14) 受入後に所蔵に反映する各種の値（資料種別、所在、受入区分、貸出区分、備消区分） を発注時に設定できること。
+//15) 複本の発注時に、ローカルの既存の書誌を流用できること。
+//5) 寄贈図書等の受入時に備消区分、資料種別、配架場所の任意の項目について、直前に 入力したレコードを参照して自動的に値を設定すること。
+//8) 継続物やセット物の受入時に、同じ発注ですでに受け入れた所蔵情報を見られること。
+//11) 利用者番号と予算区分の組み合わせごとに予算額を設定し、受入時に超過チェックが 可能なこと。
+//";
+            p.StartInfo.Arguments = "\"" + txtFile + "\"";//@"""C:\Users\trans\Documents\Visual Studio 2015\Projects\jyoken\jyoken\bin\Debug\mecab\test.txt";
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.RedirectStandardOutput = true;
@@ -40,6 +40,7 @@ namespace jyoken
             string error = p.StandardError.ReadToEnd();
             p.WaitForExit();
             p.Close();
+            MessageBox.Show(output);
             return output;
         }
 
@@ -107,10 +108,31 @@ namespace jyoken
             btnSavedFileOpen.Enabled = false;
             btnSavedFileOpen.Visible = false;
             //parameter clear
-            file = null;
+            txtFile = null;
             text = null;
             result = null;
             saveRoute = null;
+        }
+
+        private List<string> readReqSentences(string[] Text)
+        {
+            List<string> reqSentences = new List<string>();
+            foreach (string sentence in Text)
+            {
+                int i = 0;
+                if (!string.IsNullOrEmpty(sentence))
+                {
+                    if(string.IsNullOrEmpty(reqSentences[i]))
+                    {
+                        reqSentences[i] = sentence;
+                    }
+                    else
+                    {
+                        reqSentences[i] += sentence;
+                    }
+                }
+            }
+            return reqSentences;
         }
     }
 }

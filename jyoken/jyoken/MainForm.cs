@@ -14,12 +14,12 @@ namespace jyoken
 {
     public partial class MainForm : Form
     {
-        string _file = null;
-        string file{
-            get { return _file; }
+        string _txtFile = null;
+        string txtFile{
+            get { return _txtFile; }
             set{
-                _file = value;
-                if (_file == null || _file == string.Empty)
+                _txtFile = value;
+                if (_txtFile == null || _txtFile == string.Empty)
                     this.btnProcess.Enabled = false;
             }
         }
@@ -51,7 +51,7 @@ namespace jyoken
 四、処理をクッリクする
 五、保存";
 
-        List<string> keyWords = new List<string> { "ば", "たら","なら","と","とき","時","場合" };
+        string[] keyWords = { "ば", "たら","なら","と","とき","時","場合" };
         //Image imgHakui = Resource.hakui;
         
         #region btnSave monitor
@@ -67,7 +67,6 @@ namespace jyoken
                     SaveBtnEnable();
             }
         }
-
         bool _isSaveRouteOK;
         public bool isSaveRouteOK{
             get { return _isSaveRouteOK; }
@@ -87,6 +86,7 @@ namespace jyoken
             this.lblIntro.Text = introText;
             this.btnSavedFileOpen.Visible = false;
             this.picBoxSucceed.Image = new Bitmap(Resource.hakui, 120, 120);
+            this.picBoxSucceed.Visible = false;
             keyWordListGen();
         }
 
@@ -101,9 +101,9 @@ namespace jyoken
             try
             {
                 var f = selectFile(false);
-                file =  f != null ? f : file;
-                txtboxFileSelect.Text = file;
-                btnProcess.Enabled = file != null ? true : false;
+                txtFile =  f != null ? f : txtFile;
+                txtboxFileSelect.Text = txtFile;
+                btnProcess.Enabled = txtFile != null ? true : false;
                 
             }
             catch(Exception){}
@@ -125,8 +125,9 @@ namespace jyoken
             //run mecab
             string mecabResult = null;
 
-            text = File.ReadAllText(file);
-
+            //以空行為界，將每一個不是空行的文本塊提取成一個字符串
+            List<string> reqSentences = readReqSentences(File.ReadAllLines(txtFile));
+            
                 try
                 {
                     mecabResult = mecabProcess(text);
@@ -143,11 +144,13 @@ namespace jyoken
                 this.isResultOK = true;
         }
 
+
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
-                FileInfo fileName = new FileInfo(file);
+                FileInfo fileName = new FileInfo(txtFile);
                 File.WriteAllText((saveRoute + @"\mecab_" + fileName.Name), result);
                 MessageBox.Show("セーブしました", "セーブ完了");
                 promptLabel.Text = "[mecab_" + fileName.Name + "] has been saved into " + saveRoute + "!";
@@ -165,7 +168,6 @@ namespace jyoken
         {
             btnSave.Enabled = true;
         }
-
 
         private void btnSetting_Click(object sender, EventArgs e)
         {
@@ -207,18 +209,21 @@ namespace jyoken
 
         private void btnSavedFileOpen_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("notepad.exe", "\"" + saveRoute + @"\" + "mecab_" + (new FileInfo(file)).Name + "\"");
+            System.Diagnostics.Process.Start("notepad.exe", "\"" + saveRoute + @"\" + "mecab_" + (new FileInfo(txtFile)).Name + "\"");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            test();
+            //test();
+            test2();
         }
+
+#if DEBUG
 
         private void test()
         {
-            string str = Console.ReadLine();
-
+            string str = mecabLocation + " " + "\"" + txtFile + /*" >show.txt" +*/ "\"";
+            //MessageBox.Show(str);
             System.Diagnostics.Process p = new System.Diagnostics.Process();
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
@@ -226,9 +231,12 @@ namespace jyoken
             p.StartInfo.RedirectStandardOutput = true;//由调用程序获取输出信息
             p.StartInfo.RedirectStandardError = true;//重定向标准错误输出
             p.StartInfo.CreateNoWindow = true;//不显示程序窗口
+            p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            
             p.Start();//启动程序
-
+            //MessageBox.Show(p.StartInfo.StandardOutputEncoding.ToString());
             //向cmd窗口发送输入信息
+            //p.StandardInput.WriteLine("chcp 65001");
             p.StandardInput.WriteLine(str + "&exit");
 
             p.StandardInput.AutoFlush = true;
@@ -237,10 +245,10 @@ namespace jyoken
             //同类的符号还有&&和||前者表示必须前一个命令执行成功才会执行后面的命令，后者表示必须前一个命令执行失败才会执行后面的命令
 
 
-
+            
             //获取cmd窗口的输出信息
             string output = p.StandardOutput.ReadToEnd();
-
+            File.WriteAllText(Environment.CurrentDirectory + @"\show.txt", output);
             //StreamReader reader = p.StandardOutput;
             //string line=reader.ReadLine();
             //while (!reader.EndOfStream)
@@ -249,12 +257,22 @@ namespace jyoken
             //    line = reader.ReadLine();
             //}
 
-            p.WaitForExit();//等待程序执行完退出进程
+            p.WaitForExit(1000);//等待程序执行完退出进程
             p.Close();
 
-
-            Console.WriteLine(output);
+            MessageBox.Show(output);
         }
+
+        private void test2()
+        {
+            List<string> reqSentences = readReqSentences(File.ReadAllLines(txtFile));
+
+            foreach (var sen in reqSentences)
+            {
+                MessageBox.Show(sen);
+            }
+        }
+#endif
     }
 
 }
