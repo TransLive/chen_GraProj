@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace jyoken
 {
@@ -19,7 +20,7 @@ namespace jyoken
             get { return _txtFile; }
             set{
                 _txtFile = value;
-                if (_txtFile == null || _txtFile == string.Empty)
+                if (string.IsNullOrEmpty(_txtFile))
                     this.btnProcess.Enabled = false;
             }
         }
@@ -30,7 +31,7 @@ namespace jyoken
             get { return _saveRoute; }
             set {
                 _saveRoute = value;
-                if (_saveRoute == null || _saveRoute == string.Empty)
+                if (string.IsNullOrEmpty(_saveRoute))
                     this.btnSave.Enabled = false;
             }
         }
@@ -41,19 +42,19 @@ namespace jyoken
             set { mecabLocation = value; }
         }
         string introText =
-@"  利用説明
+@"利用説明
 
-設定：mecabの位置を選択して
+設定：mecabの位置（本ツール同梱）
 
-一、ファイルを選択
-二、セーブ用のフォルダーを選択
-三、処理したいキーワードを選択
+一、ファイルを選択する
+二、セーブ用のフォルダーを選択する
+三、処理したいキーワードを選択する
 四、処理をクッリクする
 五、保存";
 
         string[] keyWords = { "ば", "たら","なら","と","とき","時","場合" };
-        //Image imgHakui = Resource.hakui;
-        
+        Dictionary<string, string> keywordRegex = new Dictionary<string, string>();
+
         #region btnSave monitor
         //public delegate void deleCanSave();
         //public event deleCanSave onBothIsOk;
@@ -87,7 +88,15 @@ namespace jyoken
             this.btnSavedFileOpen.Visible = false;
             this.picBoxSucceed.Image = new Bitmap(Resource.hakui, 120, 120);
             this.picBoxSucceed.Visible = false;
-            keyWordListGen();
+            //string[] keyWords = { "ば", "たら","なら","と","とき","時","場合" };
+            keywordRegex.Add(keyWords[0], @"\bば.*副詞可能");
+            keywordRegex.Add(keyWords[1], @"\bたら.*副詞可能");
+            keywordRegex.Add(keyWords[2], @"\bなら.*助動詞");
+            keywordRegex.Add(keyWords[3], @"(\bと\s+).*副詞可能");
+            keywordRegex.Add(keyWords[4], @"\bとき.*副詞可能");
+            keywordRegex.Add(keyWords[5], @"\b時.*副詞可能");
+            keywordRegex.Add(keyWords[6], @"場合");
+            keyWordListGen(); 
         }
 
         private void Evn_onBothIsOk()
@@ -101,9 +110,9 @@ namespace jyoken
             try
             {
                 var f = selectFile(false);
-                txtFile =  f != null ? f : txtFile;
+                txtFile = !string.IsNullOrEmpty(f) ? f : txtFile;
                 txtboxFileSelect.Text = txtFile;
-                btnProcess.Enabled = txtFile != null ? true : false;
+                btnProcess.Enabled = !string.IsNullOrEmpty(txtFile) ? true : false;
                 
             }
             catch(Exception){}
@@ -122,25 +131,32 @@ namespace jyoken
         */
         private void btnProcess_Click(object sender, EventArgs e)
         {
+            cheLstBoxKeyWords.Enabled = cheboxAllSelect.Enabled = btnProcess.Enabled = false;
             //run mecab
             string mecabResult = null;
-
             //以空行為界，將每一個不是空行的文本塊提取成一個字符串
             List<string> reqSentences = readReqSentences(File.ReadAllLines(txtFile));
             
-                try
+            try
+            {
+                var selectedKeywords = getSelectedKeywords();
+                foreach (string Sentence in reqSentences)
                 {
-                    mecabResult = mecabProcess(text);
-                    //for(int i = 0;i < cheLstBoxKeyWords.Items.Count;i++)
-                    //{
-                    //    if (cheLstBoxKeyWords.GetItemChecked(i))
-                    //        result += "\n" + keyWordProcess(cheLstBoxKeyWords.GetItemText(i));
-                    //}
-                result = mecabResult;//這句最後要刪除
+                    File.WriteAllText(Environment.CurrentDirectory + @"\haha.txt", Sentence, Encoding.UTF8);
+                    //File.SetAttributes(Environment.CurrentDirectory + @"\haha.txt", FileAttributes.Hidden);
+                    mecabResult = mecabProcess(Sentence);
+                    //正則判斷
+                    if (isIfRequirement(mecabResult, selectedKeywords))
+                    {
+                        result += Sentence + "\r\n\r\n";
+                    }
+                }
                 promptLabel.Text = "処理完成";
+                //File.Delete(Environment.CurrentDirectory + @"\haha.txt");
+                cheLstBoxKeyWords.Enabled = cheboxAllSelect.Enabled = btnProcess.Enabled = true;
             }
             catch (Exception) { }
-            if (result != null && saveRoute != null)
+            if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(saveRoute))
                 this.isResultOK = true;
         }
 
@@ -192,6 +208,7 @@ namespace jyoken
 
         private void cheLstBoxKeyWords_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //若發現沒有全部選擇，及時勾白全選checkbox
             for (int i = 0; i < cheLstBoxKeyWords.Items.Count; i++)
             {
                 if (cheLstBoxKeyWords.GetItemChecked(i) == false)
@@ -212,19 +229,25 @@ namespace jyoken
             System.Diagnostics.Process.Start("notepad.exe", "\"" + saveRoute + @"\" + "mecab_" + (new FileInfo(txtFile)).Name + "\"");
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            //test();
-            test2();
-        }
-
+        #region debug
 #if DEBUG
 
-        private void test()
+        private void button1_Click(object sender, EventArgs e)
         {
-            string str = mecabLocation + " " + "\"" + txtFile + /*" >show.txt" +*/ "\"";
+            string a =
+@"
+時	名詞,接尾,副詞可能,*,*,*,時,ジ,ジ
+";
+            Regex r = new Regex(@"\b時.*副詞可能");
+            MessageBox.Show((r.IsMatch(a)).ToString());
+        }
+
+        private void test(List<string> reqSentences)
+        {
+            string str = mecabLocation;// + " " + "\"" + txtFile + /*" >show.txt" +*/ "\"";
             //MessageBox.Show(str);
             System.Diagnostics.Process p = new System.Diagnostics.Process();
+            //p.StartInfo.FileName = "\"" + mecabLocation + "\"";
             p.StartInfo.FileName = "cmd.exe";
             p.StartInfo.UseShellExecute = false;    //是否使用操作系统shell启动
             p.StartInfo.RedirectStandardInput = true;//接受来自调用程序的输入信息
@@ -237,18 +260,20 @@ namespace jyoken
             //MessageBox.Show(p.StartInfo.StandardOutputEncoding.ToString());
             //向cmd窗口发送输入信息
             //p.StandardInput.WriteLine("chcp 65001");
-            p.StandardInput.WriteLine(str + "&exit");
+            File.WriteAllText("haha.txt", reqSentences[0], Encoding.UTF8);
+            p.StandardInput.WriteLine(str + " " + "haha.txt" + " &exit");
+            //p.StandardInput.WriteLine(reqSentences[0]);
 
             p.StandardInput.AutoFlush = true;
-            //p.StandardInput.WriteLine("exit");
             //向标准输入写入要执行的命令。这里使用&是批处理命令的符号，表示前面一个命令不管是否执行成功都执行后面(exit)命令，如果不执行exit命令，后面调用ReadToEnd()方法会假死
             //同类的符号还有&&和||前者表示必须前一个命令执行成功才会执行后面的命令，后者表示必须前一个命令执行失败才会执行后面的命令
 
+            //System.Threading.Thread.Sleep(2000);
 
-            
+            //p.Kill();
             //获取cmd窗口的输出信息
             string output = p.StandardOutput.ReadToEnd();
-            File.WriteAllText(Environment.CurrentDirectory + @"\show.txt", output);
+            //File.WriteAllText(Environment.CurrentDirectory + @"\show.txt", output);
             //StreamReader reader = p.StandardOutput;
             //string line=reader.ReadLine();
             //while (!reader.EndOfStream)
@@ -256,8 +281,7 @@ namespace jyoken
             //    str += line + "  ";
             //    line = reader.ReadLine();
             //}
-
-            p.WaitForExit(1000);//等待程序执行完退出进程
+            p.WaitForExit();//等待程序执行完退出进程
             p.Close();
 
             MessageBox.Show(output);
@@ -266,13 +290,13 @@ namespace jyoken
         private void test2()
         {
             List<string> reqSentences = readReqSentences(File.ReadAllLines(txtFile));
-
             foreach (var sen in reqSentences)
             {
                 MessageBox.Show(sen);
             }
         }
 #endif
+        #endregion
     }
 
 }

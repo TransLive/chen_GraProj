@@ -7,3 +7,14 @@ C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Release\j
 C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Release\jyoken.csproj.GenerateResource.Cache
 C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Release\jyoken.exe
 C:\Users\trans\documents\visual studio 2015\Projects\jyoken\jyoken\obj\Release\jyoken.pdb
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\bin\Release\jyoken.exe.config
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.exe
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.pdb
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.MainForm.resources
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.Properties.Resources.resources
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.Resource.resources
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.SettingForm.resources
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.csproj.GenerateResource.Cache
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\bin\Release\jyoken.exe
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\bin\Release\jyoken.pdb
+C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Release\jyoken.csprojResolveAssemblyReference.cache
