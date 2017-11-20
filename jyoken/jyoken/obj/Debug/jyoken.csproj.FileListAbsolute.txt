@@ -25,3 +25,13 @@ C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.Properti
 C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.Resource.resources
 C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.SettingForm.resources
 C:\Users\trans\Source\Repos\chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.csproj.GenerateResource.Cache
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\bin\Debug\jyoken.exe.config
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.exe
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.pdb
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\bin\Debug\jyoken.exe
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\bin\Debug\jyoken.pdb
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.MainForm.resources
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.Properties.Resources.resources
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.Resource.resources
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.SettingForm.resources
+C:\Users\ccgling\Desktop\Chen_GraProj\jyoken\jyoken\obj\Debug\jyoken.csproj.GenerateResource.Cache

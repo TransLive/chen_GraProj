@@ -29,7 +29,7 @@ namespace jyoken
             p.StartInfo.StandardOutputEncoding = Encoding.UTF8;
 
             p.Start();
-
+            //p.StandardInput.WriteLine("chcp 932");
             p.StandardInput.WriteLine(str + " " + "haha.txt" + " &exit");
             p.StandardInput.AutoFlush = true;
             string output = p.StandardOutput.ReadToEnd();

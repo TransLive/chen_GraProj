@@ -149,6 +149,7 @@ namespace jyoken
                     if (isIfRequirement(mecabResult, selectedKeywords))
                     {
                         result += Sentence + "\r\n\r\n";
+                        //MessageBox.Show(result);
                     }
                 }
                 promptLabel.Text = "処理完成";
@@ -156,6 +157,8 @@ namespace jyoken
                 cheLstBoxKeyWords.Enabled = cheboxAllSelect.Enabled = btnProcess.Enabled = true;
             }
             catch (Exception) { }
+            File.Delete(Environment.CurrentDirectory + @"\haha.txt");
+            //MessageBox.Show((!string.IsNullOrEmpty(result)).ToString() + (!string.IsNullOrEmpty(saveRoute)).ToString());
             if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(saveRoute))
                 this.isResultOK = true;
         }
